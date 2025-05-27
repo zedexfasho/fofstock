@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <svg class="fof-logo me-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:48px;height:48px;">
+      <circle cx="24" cy="24" r="22" fill="#2d3748" stroke="#fbbf24" stroke-width="4"/>
+      <text x="50%" y="56%" text-anchor="middle" fill="#fbbf24" font-size="18" font-family="Montserrat, Arial, sans-serif" font-weight="bold" dy=".3em">FB</text>
+    </svg>
+    <h1 class="mb-0" style="font-weight:700;letter-spacing:1px;">Tableau de bord Fofboutik</h1>
+</div>
+
+<div class="mb-4 d-flex flex-wrap gap-3">
+    <a href="{% url 'produit_liste' %}" class="btn btn-outline-primary btn-lg">Voir les produits</a>
+    <a href="{% url 'produit_ajouter' %}" class="btn btn-outline-success btn-lg">Ajouter un produit</a>
+    <a href="{% url 'ajouter_vente' %}" class="btn btn-outline-info btn-lg">Enregistrer une vente</a>
+    <a href="{% url 'ajouter_categorie' %}" class="btn btn-outline-warning btn-lg">Ajouter une catégorie</a>
+</div>
+
+<div class="mb-4">
+    <h4 class="mb-3">Catégories</h4>
+    <div class="d-flex flex-wrap gap-3">
+        {% for categorie in categories %}
+        <div class="d-flex align-items-center bg-white shadow-sm rounded px-3 py-2" style="min-width:160px;">
+            {% if categorie.icone == 'cosmetique' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fbbf24"/><path d="M8 16c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="#2d3748" stroke-width="2"/><rect x="10" y="7" width="4" height="5" rx="2" fill="#fff"/></svg>
+            {% elif categorie.icone == 'chaussure' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="3" y="15" width="18" height="5" rx="2" fill="#2d3748"/><path d="M3 15l3-7h6l3 7" stroke="#fbbf24" stroke-width="2"/></svg>
+            {% elif categorie.icone == 'basin' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="8" ry="3" fill="#fbbf24"/><rect x="4" y="4" width="16" height="10" rx="5" fill="#2d3748"/></svg>
+            {% elif categorie.icone == 'alimentaire' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="8" rx="4" fill="#fbbf24"/><circle cx="12" cy="8" r="4" fill="#2d3748"/></svg>
+            {% elif categorie.icone == 'electronique' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="3" fill="#2d3748"/><rect x="8" y="10" width="8" height="4" rx="2" fill="#fbbf24"/></svg>
+            {% elif categorie.icone == 'vetement' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M4 6l8 4 8-4" stroke="#2d3748" stroke-width="2"/><rect x="6" y="10" width="12" height="8" rx="3" fill="#fbbf24"/></svg>
+            {% elif categorie.icone == 'accessoire' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fbbf24"/><rect x="10" y="6" width="4" height="8" rx="2" fill="#2d3748"/></svg>
+            {% elif categorie.icone == 'maison' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="8" rx="2" fill="#2d3748"/><polygon points="12,4 2,12 22,12" fill="#fbbf24"/></svg>
+            {% elif categorie.icone == 'jouet' %}
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="8" cy="16" r="4" fill="#fbbf24"/><circle cx="16" cy="16" r="4" fill="#2d3748"/><rect x="6" y="8" width="12" height="4" rx="2" fill="#fbbf24"/></svg>
+            {% else %}
+                <svg width="28" height="28" fill="#e0e7ef" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+            {% endif %}
+            <span class="ms-2 fw-semibold">{{ categorie.nom }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row mb-4 g-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="fw-bold">Total Produits</h5>
+                <p class="fs-2 mb-0">{{ total_produits }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="fw-bold">Produits Vendus</h5>
+                <p class="fs-2 mb-0">{{ total_vendus }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="fw-bold">Stock Restant</h5>
+                <p class="fs-2 mb-0">{{ total_stock }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="fw-bold">Revenu Total</h5>
+                <p class="fs-2 mb-0">{{ total_revenu|floatformat:2 }} FCFA</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="fw-bold mb-3">Dernières ventes</h5>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vente in ventes|slice:':5' %}
+                        <tr>
+                            <td>{{ vente.date_vente|date:'d/m/Y H:i' }}</td>
+                            <td>{{ vente.produit.nom }}</td>
+                            <td>{{ vente.quantite }}</td>
+                            <td>{{ vente.prix_total|floatformat:2 }} FCFA</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center">Aucune vente récente</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-5 mb-3" style="font-weight:600;">Produits en stock</h3>
+<div class="table-responsive">
+<table class="table table-bordered align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>Nom</th>
+            <th>Catégorie</th>
+            <th>Quantité</th>
+            <th>Vendus</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits %}
+        <tr {% if produit.quantite < 5 %}class="table-danger"{% endif %}>
+            <td style="font-weight:500;">{{ produit.nom }}</td>
+            <td>
+                {% if produit.categorie %}
+                    {% if produit.categorie.icone == 'cosmetique' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fbbf24"/><path d="M8 16c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="#2d3748" stroke-width="2"/><rect x="10" y="7" width="4" height="5" rx="2" fill="#fff"/></svg>
+                    {% elif produit.categorie.icone == 'chaussure' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="3" y="15" width="18" height="5" rx="2" fill="#2d3748"/><path d="M3 15l3-7h6l3 7" stroke="#fbbf24" stroke-width="2"/></svg>
+                    {% elif produit.categorie.icone == 'basin' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><ellipse cx="12" cy="17" rx="8" ry="3" fill="#fbbf24"/><rect x="4" y="4" width="16" height="10" rx="5" fill="#2d3748"/></svg>
+                    {% elif produit.categorie.icone == 'alimentaire' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="8" rx="4" fill="#fbbf24"/><circle cx="12" cy="8" r="4" fill="#2d3748"/></svg>
+                    {% elif produit.categorie.icone == 'electronique' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="3" fill="#2d3748"/><rect x="8" y="10" width="8" height="4" rx="2" fill="#fbbf24"/></svg>
+                    {% elif produit.categorie.icone == 'vetement' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M4 6l8 4 8-4" stroke="#2d3748" stroke-width="2"/><rect x="6" y="10" width="12" height="8" rx="3" fill="#fbbf24"/></svg>
+                    {% elif produit.categorie.icone == 'accessoire' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#fbbf24"/><rect x="10" y="6" width="4" height="8" rx="2" fill="#2d3748"/></svg>
+                    {% elif produit.categorie.icone == 'maison' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="8" rx="2" fill="#2d3748"/><polygon points="12,4 2,12 22,12" fill="#fbbf24"/></svg>
+                    {% elif produit.categorie.icone == 'jouet' %}
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="8" cy="16" r="4" fill="#fbbf24"/><circle cx="16" cy="16" r="4" fill="#2d3748"/><rect x="6" y="8" width="12" height="4" rx="2" fill="#fbbf24"/></svg>
+                    {% else %}
+                        <svg width="20" height="20" fill="#e0e7ef" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+                    {% endif %}
+                    <span class="ms-1">{{ produit.categorie.nom }}</span>
+                {% else %}-{% endif %}
+            </td>
+            <td>{{ produit.quantite }}</td>
+            <td>{{ produit.quantite_vendue }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% if produits_faible_stock %}
+    <div class="alert alert-danger mt-4 shadow-sm">
+        <strong>Attention !</strong> Certains produits ont moins de 5 articles en stock.
+    </div>
+{% endif %}
+
+{% endblock %}

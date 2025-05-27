@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>{{ object.nom }}</h2>
+  <p>{{ object.description }}</p>
+  <p>Quantité en stock : {{ object.quantite }}</p>
+  <a href="{% url 'modifier_produit' object.pk %}">Modifier</a> |
+  <a href="{% url 'supprimer_produit' object.pk %}">Supprimer</a>
+{% endblock %}

@@ -1,0 +1,48 @@
+<h2>Rapport hebdomadaire des ventes et stocks</h2>
+<p><strong>Total des revenus :</strong> {{ total_revenu|floatformat:2 }} FCFA</p>
+<h3>Stocks</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr>
+    <th>Nom</th>
+    <th>Quantité</th>
+    <th>Quantité vendue</th>
+    <th>Prix unitaire</th>
+  </tr>
+  {% for produit in produits %}
+    <tr {% if produit.quantite < 5 %}style="background:#ffe5e5;"{% endif %}>
+      <td>{{ produit.nom }}</td>
+      <td>{{ produit.quantite }}</td>
+      <td>{{ produit.quantite_vendue }}</td>
+      <td>{{ produit.prix_unitaire|floatformat:2 }} FCFA</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<h3>Ventes de la semaine</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr>
+    <th>Date</th>
+    <th>Produit</th>
+    <th>Quantité</th>
+    <th>Prix total</th>
+  </tr>
+  {% for vente in ventes %}
+    <tr>
+      <td>{{ vente.date_vente|date:'d/m/Y H:i' }}</td>
+      <td>{{ vente.produit.nom }}</td>
+      <td>{{ vente.quantite }}</td>
+      <td>{{ vente.prix_total|floatformat:2 }} FCFA</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">Aucune vente cette semaine</td></tr>
+  {% endfor %}
+</table>
+
+{% if produits_faible_stock %}
+  <h3 style="color:#d7263d;">Attention : Stocks bientôt épuisés (&lt; 5)</h3>
+  <ul>
+    {% for produit in produits_faible_stock %}
+      <li>{{ produit.nom }} ({{ produit.quantite }} restants)</li>
+    {% endfor %}
+  </ul>
+{% endif %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex align-items-center mb-3">
+    <svg class="fof-logo me-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:36px;height:36px;">
+      <circle cx="24" cy="24" r="22" fill="#2d3748" stroke="#fbbf24" stroke-width="4"/>
+      <text x="50%" y="56%" text-anchor="middle" fill="#fbbf24" font-size="18" font-family="Montserrat, Arial, sans-serif" font-weight="bold" dy=".3em">FB</text>
+    </svg>
+    <h2 class="mb-0">{% if object %}Modifier{% else %}Ajouter{% endif %} un produit</h2>
+  </div>
+  <form method="post" class="bg-white p-4 rounded shadow-sm" style="max-width:500px;">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.nom.label_tag }}
+      {{ form.nom }}
+    </div>
+    <div class="mb-3">
+      {{ form.quantite.label_tag }}
+      {{ form.quantite }}
+    </div>
+    <div class="mb-3">
+      {{ form.prix_unitaire.label_tag }}
+      {{ form.prix_unitaire }}
+    </div>
+    <div class="mb-3 d-flex align-items-center justify-content-between">
+      <div style="width:80%">
+        {{ form.categorie.label_tag }}
+        {{ form.categorie }}
+      </div>
+      <a href="{% url 'ajouter_categorie' %}" class="btn btn-outline-secondary ms-2" style="white-space:nowrap;">+ Ajouter une catégorie</a>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+  </form>
+{% endblock %}
